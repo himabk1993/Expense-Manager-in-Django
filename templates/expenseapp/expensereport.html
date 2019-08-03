@@ -1,0 +1,111 @@
+
+<html>
+  <head>
+    <title>View Report</title>
+    <script
+			  src="https://code.jquery.com/jquery-3.4.0.min.js"
+			  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+			  crossorigin="anonymous"></script>
+    <style type="text/css">
+
+    .left{
+      width: 500;
+      height : 50%;
+      float :left;
+    }
+    .top{
+      padding-top: 20px;
+      width :50%;
+      height : 50;
+      float :left;
+    }
+      .right{
+        width :100;
+        height : 100;
+        padding-top: 20px;
+        clear :both;
+      }
+    </style>
+  </head>
+  <body>
+    {% block container %}
+    <form action="{% url 'expenseapp:view_expense' %}" method="POST">
+      {% csrf_token %}
+    <center>
+    <div class="left">
+    Expense Summary
+    <table border="1" cellpadding="10">
+      <tr>
+        <th>Date </th><th>Category </th><th>Expense </th><th>Payment type </th><th>Description </th>
+      </tr>
+
+
+      {% for rec in records %}
+        <tr>
+        <td>{{ rec.purchase_date }}</td>
+        <td>{{ rec.category.category_name }}</td>
+        <td>{{ rec.rate }}</td>
+        <td>{{ rec.payed_by.payed_by }}</td>
+        <td>{{ rec.description }}</td>
+        </tr>
+
+        {% endfor %}
+        <tr>
+        <td>Total Expense is :</td>
+        <td>
+            {{ total_price }}
+        </td>
+      </tr>
+    </table>
+
+      <div class="top">
+
+
+        <table width="70%" cellpadding="5">
+          <th>Filter by date : from </th> <th>Filter by date : to </th> <th style="width:70%"> Filter by Payed type : </th>
+          <tr>
+            <td>
+              <input type="date" name="dt1" value="">
+<!--      <select name="">
+        <option>select</option>
+        <option>date</option>
+        <option>amount</option>
+      </select> -->
+    </td>
+    <td>
+        <input type="date" name="dt2" value="">
+      </td>
+
+<!--    <td>  <select name="category">
+        <option>all category</option>
+        <option>Grocery</option>
+        <option>Travel</option>
+        <option>Entertainment</option>
+        <option>Other</option>
+      </select>
+    </td> -->
+    <td>  <select name="payment_type">
+          {% for pay in paymodes %}
+            <option value="{{ pay.id }}">{{ pay.payed_by }}</option>
+          {% endfor %}
+      </select>
+    </td>
+        <td><button type="submit">SUBMIT</button></td>
+          </tr>
+
+        <td colspan="2" align="right"><a href="{% url 'expenseapp:add_expense' %}">Add Expenses</a></td>
+
+
+    </table>
+
+
+      {% endblock %}
+      </div>
+        </center>
+    </form>
+    </div>
+
+
+
+  </body>
+</html>

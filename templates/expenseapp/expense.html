@@ -1,0 +1,82 @@
+{% include '../signup/base.html' %}
+<html>
+  <head>
+    <title>VIEW</title>
+    <style type='text/css'>
+
+      .right{
+        float : right;
+        background : blue;
+        color : black;
+      }
+      .bottom{
+        float : center;
+      }
+      .center{
+        float : center ;
+
+      }
+
+    </style>
+  </head>
+  <body>
+    
+    <div class="center">
+    <form action="{% url 'expenseapp:add_expense' %}" method="POST">
+      {% csrf_token %}
+      <center>
+      <table cellpadding="10">
+        <tr>
+        <td>Shop name :</td>
+        <td><input type="text" name="shop" value=""></td>
+        </tr>
+        <tr>
+        <td>Select Date :</td>
+        <td><input type="date" name="dt" value=""></td>
+        </tr>
+        <tr>
+          <td>Select Category :</td>
+        <td><select name= "category">
+          {% for category in categories %}
+            <option value="{{category.id}}">{{ category.category_name }}</option>
+          {% endfor %}
+          </select></td>
+          </tr>
+          <tr>
+            <td>Item : </td>
+            <td> <input type="text" name="item" value=""></td>
+          </tr>
+          <tr>
+            <td>Quantity : </td>
+            <td> <input type="text" name="quant" value=""></td>
+          </tr>
+          <tr>
+            <td>Expense : </td>
+            <td> <input type="text" name="rate" value=""></td>
+          </tr>
+          <tr>
+            <td>Cash paid by : </td>
+            <td>
+              <select name="pay">
+                {% for pay in paymodes %}
+                  <option value="{{ pay.id }}">{{ pay.payed_by }}</option>
+                {% endfor %}
+            </td>
+          <tr>
+            <td>Description : </td>
+            <td> <textarea name="desc" rows="8" cols="80"></textarea> </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">
+              <button type="submit" name="add" >Submit</button>
+            </td>
+            </tr>
+          <tr>
+            <td colspan="2" align="right"><a href="{% url 'expenseapp:view_expense' %}">View Report</a></td>
+          </tr>
+      </table>
+      </center>
+    </div>
+    </form>
+  </body>
+</html>
